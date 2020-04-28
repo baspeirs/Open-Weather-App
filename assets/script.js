@@ -9,8 +9,11 @@ var baseURL = 'https://api.openweathermap.org/data/2.5/weather?q=';
 var key = '&appid=00134655df609db935a541653e50ae37';
 var selectCity = '';
 
+// empty array for the previously searched cities
+var cityList = [];
+
 $("#submitCity").on("click", searchCity)
-$(".cityButton").on("click", cityButtonSearch)
+$("#storeSearch").on("click", cityButtonSearch)
 
 // submit button id inputGroup-sizing-default
 function searchCity() {
@@ -27,12 +30,15 @@ function searchCity() {
         console.log(response)
         $("#todaysForecast").empty()
 
+        var cityData = response.name;
+
         var cityButton = $("<button>");
+        cityButton.attr("data-button", cityData);
         cityButton.attr("class", "cityButton")
         var storeDiv = $("<div>");
     
         // store the city name on the left of the page
-        cityButton.text(response.name)
+        cityButton.text(cityData)
         storeDiv.append(cityButton)
         $("#storeSearch").prepend(storeDiv)
 
@@ -67,8 +73,10 @@ function searchCity() {
 }
 
 function cityButtonSearch() {
-    selectCity = this.text();
+    selectCity = $(this).text();
+    console.log(selectCity)
     var fullURL = baseURL + selectCity + key;
+    console.log($(this))
     
 
 
@@ -78,15 +86,6 @@ function cityButtonSearch() {
     }).then(function(response) {
         console.log(response)
         $("#todaysForecast").empty()
-
-        var cityButton = $("<button>");
-        cityButton.attr("class", "cityButton")
-        var storeDiv = $("<div>");
-    
-        // store the city name on the left of the page
-        cityButton.text(response.name)
-        storeDiv.append(cityButton)
-        $("#storeSearch").prepend(storeDiv)
 
         // store todays forecast on the right
         var cityTag = $("<h1>");

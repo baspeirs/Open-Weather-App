@@ -23,18 +23,16 @@ header {
 }
 
 .cityButton {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(99, 193, 255);
+    color: white;
     border-radius: 5px;
     width: 100%;
     font-size: 26px;
 }
 
 #submitCity {
-    background-color: white;
-    width: 50%;
-    font-size: 22px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    background-color: rgb(99, 193, 255);
+    color: white;
 }
 
 body {
