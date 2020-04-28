@@ -1,0 +1,42 @@
+header {
+    background-color: rgb(95, 95, 95);
+    text-align: center;
+    color: whitesmoke;
+}
+
+#title {
+    font-size: 60px;
+}
+
+.container {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.col-4 {
+    background-color: rgb(213, 249, 250);
+    margin-right: 60px;
+}
+
+.col-7 {
+    background-color: rgb(213, 249, 250);
+}
+
+.cityButton {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    width: 100%;
+    font-size: 26px;
+}
+
+#submitCity {
+    background-color: white;
+    width: 50%;
+    font-size: 22px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+body {
+    background-color: rgb(230, 230, 230);
+}

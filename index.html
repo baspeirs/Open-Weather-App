@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>It's Weather Time</title>
 </head>
 <body>
-    
+    <header>
+        <h1 id="title">Check Out This Weather</h1>
+    </header>
+    <!-- first section -->
+    <section class="container">
+        <div class="row">
+            <div class="col-4" id="search">
+                <h3>Search for a city</h3>
+                <div id="floatBox"><input type="text" id="textBox"></div>
+                <div><button class="submit" id="submitCity">Search</button></div>
+                <div id="storeSearch"></div>
+                
+            </div>
+            <div class="col-7" id="todaysForecast">
+                <h1>today's weather goes here. </h1>
+            </div>
+        </div>
+
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./assets/script.js"></script>
 </body>
 </html>
