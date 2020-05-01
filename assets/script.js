@@ -18,6 +18,7 @@ function searchCity() {
     selectCity = input;
     sameDayURL = baseURL + selectCity + key;
     fiveDayURL = forecastURL + selectCity + key;
+    $("#textBox").val("")
     showWeatherInfo();
 }
 // function to search for city from stored buttons
@@ -82,11 +83,12 @@ function showWeatherInfo() {
         //append everything to the page
         $("#todaysForecast").append(cityTag).append(dateTag).append(tempTag).append(humidTag).append(windTag)
     })
-
+// this call is for the five day forecast cards, had to use a different url for the data
     $.ajax({
         url: fiveDayURL,
         method: "GET"
     }).then(function(response) {
+        console.log(response)
 
         for (let i=0; i <= 5; i++) {
             //div for bootstrap col
@@ -110,7 +112,7 @@ function showWeatherInfo() {
             // now the content for the cards
             // header first
             var cardHeadTag = $("<h5>");
-            cardHeadTag.text(response.list[i*8].dt_txt)
+            cardHeadTag.text(moment().add(i+1, "days").format("DD, MMMM"))
             cardSecondDiv.append(cardHeadTag)
             // now the tempurature
             var tempP = $("<p>");
@@ -127,7 +129,6 @@ function showWeatherInfo() {
             colDiv.append(cardFirstDiv)
             // append everything to page
             $("#storeWeekCast").append(colDiv)
-
         }
     })
 }

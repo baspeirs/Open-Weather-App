@@ -13,15 +13,6 @@ header {
     padding: 10px;
 }
 
-.col-4 {
-    background-color: rgb(213, 249, 250);
-    margin-right: 60px;
-}
-
-.col-7 {
-    background-color: rgb(213, 249, 250);
-}
-
 .cityButton {
     background-color: rgb(99, 193, 255);
     color: white;
