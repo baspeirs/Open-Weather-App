@@ -15,6 +15,7 @@ $("#storeSearch").on("click", ".cityButton", cityButtonSearch)
 // function to search for city from textBox
 function searchCity() {
     let input = $("#textBox").val();
+    localStorage.setItem("lastSearched", input);
     selectCity = input;
     sameDayURL = baseURL + selectCity + key;
     fiveDayURL = forecastURL + selectCity + key;
@@ -123,7 +124,7 @@ function showWeatherInfo() {
             lastCardDiv.append(tempP);
             // now the humidity
             var humidP = $("<p>");
-            humidP.text("humidity: " + response.list[i*8].main.humidity + "%");
+            humidP.text("Humidity: " + response.list[i*8].main.humidity + "%");
             lastCardDiv.append(humidP);
             //append everything to col div
             colDiv.append(cardFirstDiv)
@@ -132,3 +133,15 @@ function showWeatherInfo() {
         }
     })
 }
+// last function to run when the page starts
+// this will take the local storage item and display it on the page
+function displayLastSearched() {
+    selectCity = localStorage.getItem("lastSearched");
+    sameDayURL = baseURL + selectCity + key;
+    fiveDayURL = forecastURL + selectCity + key;
+    if (selectCity) {
+        showWeatherInfo(selectCity)
+    }
+}
+// call the function above
+displayLastSearched();
