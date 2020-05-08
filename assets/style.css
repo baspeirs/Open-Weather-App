@@ -29,3 +29,28 @@ header {
 body {
     background-color: rgb(230, 230, 230);
 }
+
+#red {
+    background-color: rgb(255, 44, 44);
+    display: inline-block;
+    padding: 2px;
+}
+
+#orange {
+    background-color: rgb(253, 173, 25);
+    display: inline-block;
+    padding: 2px;
+}
+
+#yellow {
+    background-color: rgb(255, 255, 40);
+    display: inline-block;
+    padding: 2px;
+}
+
+#green {
+    display: inline-block;
+    padding: 2px;
+    background-color: rgb(16, 235, 16);
+}
+

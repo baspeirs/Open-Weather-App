@@ -5,6 +5,9 @@ var selectCity = '';
 var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q="
 var sameDayURL = "";
 var fiveDayURL = "";
+var newSearch = true;
+var uvBaseURL = "https://api.openweathermap.org/data/2.5/uvi?"
+//lat=37.75&lon=-122.37
 
 // empty array for the previously searched cities
 var cityList = [];
@@ -13,8 +16,10 @@ $("#submitCity").on("click", searchCity)
 $("#storeSearch").on("click", ".cityButton", cityButtonSearch)
 
 // function to search for city from textBox
-function searchCity() {
+function searchCity(event) {
+    event.preventDefault();
     let input = $("#textBox").val();
+    newSearch = true;
     localStorage.setItem("lastSearched", input);
     selectCity = input;
     sameDayURL = baseURL + selectCity + key;
@@ -35,34 +40,38 @@ function showWeatherInfo() {
         url: sameDayURL,
         method: "GET"
     }).then(function(response) {
+        console.log(response)
         // clear feilds from the page 
         $("#todaysForecast").empty();
         $("#storeWeekCast").empty();
-        $("#storeSearch").empty();
         // add items to the array created on line 10
         var cityData = response.name;
-        cityList.push(cityData);
+        if (!cityList.includes(cityData)) cityList.push(cityData);
         // loop through array and create buttons to store on the side of the page
-        for (let i = 0; i < cityList.length; i++) {
-            // limit the amount of items in search history 
-            if (cityList.length > 5) {
-                cityList.shift()
+        if (newSearch) {
+            $("#storeSearch").empty();
+            for (let i = 0; i < cityList.length; i++) {
+                // limit the amount of items in search history 
+                if (cityList.length > 5) {
+                    cityList.shift()
+                }
+                var cityButton = $("<button>");
+                // var storeDiv = $("<div>");
+                cityButton.attr("data-button", cityList[i]);
+                cityButton.attr("class", "cityButton");
+                cityButton.text(cityList[i]);
+                // storeDiv.append(cityButton);
+                $("#storeSearch").prepend(cityButton);
             }
-            var cityButton = $("<button>");
-            var storeDiv = $("<div>");
-            cityButton.attr("data-button", cityList[i]);
-            cityButton.attr("class", "cityButton");
-            cityButton.text(cityList[i]);
-            storeDiv.append(cityButton);
-            $("#storeSearch").prepend(storeDiv);
+            newSearch = false;
         }
+        
         // store todays forecast on the right
         var cityTag = $("<h1>");
         var dateTag = $("<h4>")
         var tempTag = $("<p>");
         var humidTag = $("<p>");
         var windTag = $("<p>");
-        var uvIndexTag = $("<p>");
 
         // append the city
         var city = response.name;
@@ -83,6 +92,20 @@ function showWeatherInfo() {
         windTag.text("Wind speed: " + windSpeed);
         //append everything to the page
         $("#todaysForecast").append(cityTag).append(dateTag).append(tempTag).append(humidTag).append(windTag)
+        var uvURL = uvBaseURL + "lat=" + response.coord.lat + "&lon=" + response.coord.lon + key;
+        $.ajax({
+            url: uvURL,
+            method: "GET"
+        }).then(function(response) {
+            var calcIndex = Math.floor(response.value);
+            var uvIndexTag = $("<p>");
+            if (calcIndex >= 8) uvIndexTag.attr("id", "red")
+            else if (calcIndex < 8 && calcIndex > 5) uvIndexTag.attr("id", "orange")
+            else if (calcIndex <= 5 && calcIndex > 2) uvIndexTag.attr("id", "yellow")
+            else uvIndexTag.attr("id", "green")
+            uvIndexTag.text("UV Index: " + calcIndex);
+            $("#todaysForecast").append(uvIndexTag);   
+        })
     })
 // this call is for the five day forecast cards, had to use a different url for the data
     $.ajax({
@@ -115,6 +138,10 @@ function showWeatherInfo() {
             var cardHeadTag = $("<h5>");
             cardHeadTag.text(moment().add(i+1, "days").format("DD, MMMM"))
             cardSecondDiv.append(cardHeadTag)
+            // now add the weather icon
+            let iconImg = $("<img>")
+            iconImg.attr("src", "https://openweathermap.org/img/wn/" + response.list[i*8].weather[0].icon + ".png")
+            cardSecondDiv.append(iconImg)
             // now the tempurature
             var tempP = $("<p>");
             var futureKelven = response.list[i*8].main.temp;
